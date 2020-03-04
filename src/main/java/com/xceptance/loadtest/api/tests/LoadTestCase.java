@@ -9,6 +9,7 @@ import com.xceptance.loadtest.api.data.Site;
 import com.xceptance.loadtest.api.events.EventLogger;
 import com.xceptance.loadtest.api.util.Context;
 import com.xceptance.loadtest.api.util.FlowStoppedException;
+import com.xceptance.loadtest.api.util.SelenideUtil;
 import com.xceptance.xlt.api.engine.Session;
 import com.xceptance.xlt.api.util.XltProperties;
 
@@ -17,7 +18,7 @@ import com.xceptance.xlt.api.util.XltProperties;
  *
  * @author Xceptance Software Technologies
  */
-public abstract class LoadTestCase extends com.xceptance.xlt.api.tests.AbstractTestCase implements SiteByMarketShare
+public abstract class LoadTestCase extends com.xceptance.xlt.api.tests.AbstractWebDriverTestCase implements SiteByMarketShare
 {
     /**
      * The determined site or an empty optional if not yet done
@@ -46,6 +47,9 @@ public abstract class LoadTestCase extends com.xceptance.xlt.api.tests.AbstractT
                         Session.getCurrent().getUserName(),
                         getClass().getName(),
                         getSite());
+
+        // Setup Selenide
+        SelenideUtil.initializeSelenide(Context.get().configuration, getWebDriver(), Session.getCurrent());
     }
 
     /**

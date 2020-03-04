@@ -48,6 +48,21 @@ public class Configuration
     @Property(key = "general.direct.order.url")
     public String directOrderUrl;
 
+    // ===============================================================
+    // Selenide
+
+    @Property(key = "selenide.recordScreenshots", fallback = "false", required = false)
+    public boolean selenideRecordScreenshots;
+
+    @Property(key = "selenide.pageLoadStrategy", fallback = "chrome", required = false)
+    public String selenidePageLoadStrategy;
+
+    @Property(key = "selenide.savePageSource", fallback = "true", required = false)
+    public boolean selenideSavePageSource;
+
+    @Property(key = "selenide.timeout", fallback = "30000", required = false)
+    public long selenideTimeout;
+
     // ================================================================
     // Email
     
