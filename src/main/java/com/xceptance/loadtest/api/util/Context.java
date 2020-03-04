@@ -9,8 +9,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.xceptance.loadtest.api.actions.PageAction;
 import com.xceptance.loadtest.api.configuration.Configuration;
 import com.xceptance.loadtest.api.configuration.ConfigurationBuilder;
 import com.xceptance.loadtest.api.configuration.DefaultConfiguration;
@@ -28,7 +26,7 @@ import com.xceptance.xlt.api.util.XltRandom;
 import com.xceptance.xlt.common.XltConstants;
 
 /**
- * Context centralizing test configuration, current page, last action and test related data.
+ * Context centralizing test configuration and test related data.
  *
  * @author Xceptance Software Technologies
  */
@@ -45,15 +43,6 @@ public class Context
     public final Configuration configuration;
 
     /**
-     * The last executed action.
-     */
-    private PageAction<?> previousAction;
-
-    /**
-     * The action which is currently executed.
-     */
-    private PageAction<?> currentAction;
-
     /**
      * Test data of the current execution to better isolate that from the context
      */
@@ -168,16 +157,6 @@ public class Context
     }
 
     /**
-     * Closes the browser. Will also remove all cookies! It does not clean up our internal data
-     * state of the test case!!!
-     */
-    public static void closeBrowser()
-    {
-        Context.getPreviousAction().closeWebClient();
-        Context.setCurrentActionINTERNAL(null);
-    }
-
-    /**
      * Adds a new Context instance for the current Thread to the map. This Method is used by the
      * AbstractTestCase and therefore won't need to be called manually
      *
@@ -192,90 +171,6 @@ public class Context
         CONTEXTS.put(
                         Thread.currentThread().getThreadGroup(),
                         new Context(xltProperties, userName, fullTestClassName, site));
-    }
-
-    /**
-     * Gets the action which is currently executed.
-     *
-     * @return the current action
-     */
-    public static PageAction<?> getCurrentAction()
-    {
-        return get().currentAction;
-    }
-
-    /**
-     * Sets the action which is currently executed. Just a wrapper method for the static call.
-     *
-     * @param action
-     *            the current action
-     */
-    private void setCurrentActionInternal(final PageAction<?> action)
-    {
-        this.previousAction = this.currentAction;
-        this.currentAction = action;
-    }
-
-    /**
-     * Gets the action which was executed before the current one.
-     *
-     * @return the previous action if any or <code>null</code>
-     */
-    public static PageAction<?> getPreviousAction()
-    {
-        return get().previousAction;
-    }
-
-    /**
-     * Sets the action which was executed last.
-     *
-     * @param action
-     *            the current action
-     */
-    public static void setCurrentActionINTERNAL(final PageAction<?> action)
-    {
-        get().setCurrentActionInternal(action);
-    }
-
-    /**
-     * Reset the last action with an older one. Make sure you also carry over
-     * the URL, otherwise calls might not be executed. This can be used for a
-     * browser back emulation.
-     *
-     * @param action
-     *            the current action
-     */
-    public static void resetCurrentAction(final PageAction<?> action)
-    {
-        get().setCurrentActionInternal(action);
-
-        // sync the web client in terms of current url
-        if (action.getHtmlPage() != null)
-        {
-            action.getWebClient().getCurrentWindow().setEnclosedPage(action.getHtmlPage());
-        }
-    }
-
-    /**
-     * Gets the current page.
-     *
-     * @return the current page
-     */
-    public static HtmlPage getPage()
-    {
-        final HtmlPage page = getCurrentAction().getHtmlPage();
-        return page != null ? page : getPreviousAction() == null ? null : getPreviousAction().getHtmlPage();
-    }
-
-    /**
-     * Overrides the current page if it was loaded or changed externally.
-     *
-     * @param page
-     *            the current page object
-     */
-    public static void setCurrentPage(final HtmlPage page)
-    {
-        getCurrentAction().setHtmlPage(page);
     }
 
     /**
@@ -371,49 +266,6 @@ public class Context
     public static Site getSite()
     {
         return Context.get().data.getSite();
-    }
-
-
-    /**
-     * Set the Basic Authentication header if credentials are configured.
-     */
-    public static void setBasicAuthenticationHeader()
-    {
-        // get context
-        final Context context = get();
-
-        // Is a user name for Basic Authentication configured?
-        final String username = context.configuration.credentialsUserName;
-        if (StringUtils.isNotBlank(username))
-        {
-            // It is. So let's get the password.
-            final String password = context.configuration.credentialsPassword;
-
-            // Set the request header.
-            setBasicAuthenticationHeader(username, password);
-        }
-    }
-
-    /**
-     * Set the Basic Authentication header with given credentials.
-     * {@link #setBasicAuthenticationHeader()} is to be preferred over this
-     * method if possible.
-     *
-     * @param username
-     *            must not be blank, otherwise method will act like a noop.
-     * @param password
-     */
-    public static void setBasicAuthenticationHeader(final String username, final String password)
-    {
-        // Is a user name for Basic Authentication configured?
-        if (StringUtils.isNotBlank(username))
-        {
-            // Set the request header.
-            final String userPass = username + ":" + password;
-            final String userPassBase64 = Base64.encodeBase64String(userPass.getBytes());
-
-            getCurrentAction().getWebClient().addRequestHeader("Authorization", "Basic " + userPassBase64);
-        }
     }
 
     /////////////////////////////////////////////////////////////////
