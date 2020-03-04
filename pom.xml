@@ -4,8 +4,8 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.xceptance</groupId>
-	<artifactId>test-suite-posters</artifactId>
-	<name>XLT Load Test Suite for Posters Demo Store</name>
+	<artifactId>test-suite-posters-real-browser</artifactId>
+	<name>XLT Real Browser Load Test Suite for Posters Demo Store</name>
 	<packaging>jar</packaging>
 	<version>0.1</version>
 
@@ -82,6 +82,11 @@
 			<version>1.21</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.codeborne</groupId>
+			<artifactId>selenide</artifactId>
+			<version>5.8.0</version>
+		</dependency>
 	</dependencies>
 
 	<organization>
