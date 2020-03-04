@@ -1,6 +1,6 @@
-# Advanced Performance Test Suite for Posters
+# Real Browser Performance Test Suite for Posters
 
-This repository is an example of an advanced test suite for load testing a website with [XLT](https://www.xceptance.com/xlt/). In comparison to our [simple posters loadtest suite](https://github.com/Xceptance/posters-simple-loadtest-suite) which demonstrates basic XLT test suite design, this test suite goes the extra mile and implements universal concepts for easier handling of data, configuration, and test composition. It shows what is possible thanks to Java as scripting language on top of the XLT base feature set. The advanced posters test suite demostrates the following features and functionalities:
+This repository is an example of a real browser test suite for load testing a website with [XLT](https://www.xceptance.com/xlt/). In comparison to our [advanced posters loadtest suite](https://github.com/Xceptance/posters-advanced-loadtest-suite), this test suite shows of a real browser testing approach with Selenide and XLT. It shows what is possible thanks to Java as scripting language on top of the XLT base feature set. The real browser posters test suite demostrates the following features and functionalities:
 
 **Base XLT Features**
 * Every test case is a JUnit test
