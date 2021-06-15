@@ -7,7 +7,7 @@
 	<artifactId>test-suite-posters-real-browser</artifactId>
 	<name>XLT Real Browser Load Test Suite for Posters Demo Store</name>
 	<packaging>jar</packaging>
-	<version>0.1</version>
+	<version>0.5</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -67,7 +67,7 @@
 		<dependency>
 			<groupId>com.xceptance</groupId>
 			<artifactId>xlt</artifactId>
-			<version>4.13.2</version>
+			<version>5.5.0</version>
             <exclusions>
                 <exclusion>
                   <groupId>xml-apis</groupId>
@@ -79,13 +79,13 @@
 		<dependency>
 			<groupId>org.yaml</groupId>
 			<artifactId>snakeyaml</artifactId>
-			<version>1.21</version>
+			<version>1.29</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.codeborne</groupId>
 			<artifactId>selenide</artifactId>
-			<version>5.8.0</version>
+			<version>5.22.0</version>
 		</dependency>
 	</dependencies>
 

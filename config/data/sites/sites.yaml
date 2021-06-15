@@ -3,12 +3,17 @@
 # with name general.url there as well.
 
 general:
-    # please refer to private-data.yaml for more details
+    ## we need this when we run http basic auth because browser are not 
+    ## authenicating the subrequests, only the main requests, hence the first
+    ## load can be a mess and requires a reload
+    preloadAuthentication: false
+    # please refer for more in private-data.yaml
      
 data:
     file:
         firstNames: firstnames.txt
         lastNames: lastnames.txt
+        searchPhrases: searchPhrases.txt
             
 account:
     source: properties # properties, random, file, exclusivefile

@@ -115,6 +115,10 @@ public class ConfigurationBuilder
                     {
                         field.setInt(instance, initializeInt(annotation));
                     }
+                    else if (type == long.class)
+                    {
+                        field.setLong(instance, initializeLong(annotation));
+                    }
                     else if (type == boolean.class)
                     {
                         field.setBoolean(instance, initializeBoolean(annotation));
@@ -519,6 +523,54 @@ public class ConfigurationBuilder
         return 0;
     }
 
+    /**
+     * Processes long information
+     *
+     * @param field
+     *            the field to care about
+     * @param annotation
+     *            the annotation to process
+     * @return the value to attach to the field
+     */
+    private long initializeLong(final Property annotation)
+    {
+        // see if we got a fallback
+        String value;
+        if (ConfigConstants.EMPTY.equals(annotation.fallback()))
+        {
+            value = propertyLookup.getProperty(annotation.key());
+        }
+        else
+        {
+            value = propertyLookup.getProperty(annotation.key(), annotation.fallback());
+        }
+
+        // see if we have to complain
+        if (value == null && annotation.required())
+        {
+            Assert.fail(MessageFormat.format("No value provided for ''{0}''", propertyLookup.getEffectiveKey(annotation.key())));
+        }
+        else if (value == null)
+        {
+            // some kind of working default is what we need otherwise we fail
+            // next
+            return 0;
+        }
+
+        // turn it into an int, when it fails, complain
+        try
+        {
+            return Long.valueOf(value);
+        }
+        catch (final NumberFormatException e)
+        {
+            Assert.fail(MessageFormat.format("''{0}'' is not a long", propertyLookup.getEffectiveKey(annotation.key())));
+        }
+
+        // we should never reach this
+        return 0L;
+    }
+    
     /**
      * Processes boolean information
      *

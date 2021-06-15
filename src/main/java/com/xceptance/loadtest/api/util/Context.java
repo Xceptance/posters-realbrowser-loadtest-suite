@@ -5,11 +5,9 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
+import org.openqa.selenium.WebDriver;
 
-import com.xceptance.loadtest.api.configuration.Configuration;
 import com.xceptance.loadtest.api.configuration.ConfigurationBuilder;
 import com.xceptance.loadtest.api.configuration.DefaultConfiguration;
 import com.xceptance.loadtest.api.configuration.LTProperties;
@@ -19,6 +17,8 @@ import com.xceptance.loadtest.api.data.CustomDataLogger;
 import com.xceptance.loadtest.api.data.DebugData;
 import com.xceptance.loadtest.api.data.Site;
 import com.xceptance.loadtest.api.data.TestData;
+import com.xceptance.loadtest.api.pages.Page;
+import com.xceptance.loadtest.posters.configuration.Configuration;
 import com.xceptance.xlt.api.engine.Session;
 import com.xceptance.xlt.api.util.XltLogger;
 import com.xceptance.xlt.api.util.XltProperties;
@@ -56,6 +56,11 @@ public class Context
     // Keep a quickly accessible info that we are a load test run
     public static final boolean isLoadTest = Session.getCurrent().isLoadTest();
 
+    /**
+     * The current WebDriver instance.
+     */
+    private WebDriver webDriver;
+    
     /**
      * Constructor; Creates a new Context for a TestCase.
      *
@@ -345,5 +350,107 @@ public class Context
 
         // keep them for later
         return defaultConfiguaration;
+    }
+    
+    // Extendeds functionality
+    
+    /**
+     * Sets the current page. This is a convince shortcut to data
+     *
+     * @param page The new current page.
+     */
+    public static void setCurrentPage(Page page)
+    {
+        get().data.setCurrentPage(page);;
+    }
+
+    /**
+     * Retrieves the current page. This is a convince shortcut to data
+     *
+     * @return The current page.
+     */
+    public static Page getCurrentPage()
+    {
+        return get().data.getCurrentPage();
+    }
+    
+    /**
+     * Retrieves the current page as given type. This is a convince shortcut to data
+     *
+     * @return The current page.
+     */
+    public static <T extends Page> T getCurrentPageAs(Class<T> type)
+    {
+        return get().data.getCurrentPageAs(type);
+    }
+    
+    /**
+     * Indicates the begin of an action and hence the beginning of an action measurement period.
+     * <p>
+     * Will only start an action if action timing is enabled. With each start of an action, the previously running action is stopped.
+     */
+    public static void startAction(String actionName)
+    {
+        startAction(actionName, "");
+    }
+
+    /**
+     * Indicates the begin of an action and hence the beginning of an action measurement period and attaches a post fix to this action (e.g. NPV).
+     * <p>
+     * Will only start an action if action timing is enabled. With each start of an action, the previously running action is stopped.
+     */
+    public static void startAction(String actionName, String postFix)
+    {
+        String fullActionName = actionName;
+
+        // Extend action name by post fix if not empty
+        if (!postFix.isEmpty())
+        {
+            fullActionName += "_" + postFix;
+        }
+
+        // Extend action name by site identifier if not default
+        String siteIdentifier = get().data.getSite().id;
+        fullActionName += "_" + siteIdentifier;
+        
+        Session.getCurrent().startAction(fullActionName);
+    }
+
+    /**
+     * Indicates the end of an action and hence the end of an action measurement period. Will only stop an action if action timing is enabled.
+     */
+    public static void stopAction()
+    {
+        Session.getCurrent().stopAction();
+    }
+    
+    /**
+     * Sets the WebDriver instance.
+     *
+     * @param driver The WebDriver instance.
+     */
+    public static void setWebDriver(WebDriver driver)
+    {
+        get().webDriver = driver;
+    }
+
+    /**
+     * Returns the current WebDriver instance.
+     *
+     * @return The WebDriver instance.
+     */
+    public static WebDriver getWebDriver()
+    {
+        return get().webDriver;
+    }
+
+    /**
+     * Indicates if the WebDriver instance was already initialized.
+     *
+     * @return True if WebDriver was already initialized, false otherwise.
+     */
+    public static boolean hasWebDriver()
+    {
+        return get().webDriver != null;
     }
 }

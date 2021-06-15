@@ -1,0 +1,2 @@
+bear,3
+german,16

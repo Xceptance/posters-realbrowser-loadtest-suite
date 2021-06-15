@@ -1,18 +1,13 @@
-package com.xceptance.loadtest.api.data;
+package com.xceptance.loadtest.api.util;
 
 import java.util.function.Supplier;
 
 import com.xceptance.xlt.api.engine.CustomData;
 import com.xceptance.xlt.api.engine.Session;
 
-/**
- * Logger for custom data.
- * 
- * @author Xceptance Software Technologies
- */
 public class CustomDataLogger
 {
-    // The instance that has a running timer attached
+    // the instance that has a running timer attached
     private final CustomData customData;
 
     /**
@@ -39,47 +34,14 @@ public class CustomDataLogger
     }
 
     /**
-     * Stop this logger
-     *
-     * @return the runtime
-     */
-    public CustomDataLogger stop()
-    {
-        this.customData.setRunTime();
-
-        return this;
-    }
-
-    /**
-     * Stop this logger and return the runtime
-     *
-     * @return the runtime
-     */
-    public long stopAndGet()
-    {
-        this.customData.setRunTime();
-
-        return this.customData.getRunTime();
-    }
-
-    /**
-     * Stop this logger and log the time as not failed
-     *
-     * @return the runtime
-     */
-    public long stopAndLog()
-    {
-        return stop().log(false);
-    }
-
-    /**
      * Stop this logger and report the runtime
      *
      * @return the runtime
      */
-    public long log(final boolean failed)
+    public long stop()
     {
-        this.customData.setFailed(failed);
+        this.customData.setRunTime();
+        this.customData.setFailed(false);
 
         Session.getCurrent().getDataManager().logDataRecord(this.customData);
 
@@ -87,16 +49,11 @@ public class CustomDataLogger
     }
 
     /**
-     * Log custom data
      *
      * @param name
-     *            the name to log
      * @param runtime
-     *            self measured runtime
-     * @param failed
-     *            was that a failed measurement
      */
-    public static void log(final String name, final long runtime, final boolean failed)
+    public static void log(final String name, final long runtime)
     {
         final CustomData data = new CustomData();
         data.setName(name);
@@ -104,19 +61,6 @@ public class CustomDataLogger
         data.setFailed(false);
 
         Session.getCurrent().getDataManager().logDataRecord(data);
-    }
-
-    /**
-     * Log custom data that was successful
-     *
-     * @param name
-     *            the name to log
-     * @param runtime
-     *            self measured runtime
-     */
-    public static void log(final String name, final long runtime)
-    {
-        log(name, runtime, false);
     }
 
     /**
@@ -147,7 +91,7 @@ public class CustomDataLogger
             Session.getCurrent().getDataManager().logDataRecord(cd);
         }
     }
-   
+
     /**
      * Functional interface for logging custom data runtimes. Just more elegant in the code but not suitable for everything due to the scope of the code block.
      *

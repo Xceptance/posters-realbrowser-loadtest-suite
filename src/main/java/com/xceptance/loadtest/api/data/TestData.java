@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.junit.Assert;
 
+import com.xceptance.loadtest.api.pages.Page;
 import com.xceptance.loadtest.api.util.Context;
 import com.xceptance.xlt.api.engine.Session;
 
@@ -39,6 +40,47 @@ public class TestData
     // Identifies the site the test is targeting 
     public Site site;
 
+    // The current page.
+    private Page currentPage;
+    
+    /**
+     * Sets the current page.
+     *
+     * @param page The new current page.
+     */
+    public void setCurrentPage(Page page)
+    {
+        // Call page initialization
+        page.initialize();
+
+        // Validate if the current page is the expected page
+        page.validateIsExpectedPage();
+
+        // Set as current page
+        currentPage = page;
+    }
+
+    /**
+     * Retrieves the current page.
+     *
+     * @return The current page.
+     */
+    public Page getCurrentPage()
+    {
+        return currentPage;
+    }
+    
+    /**
+     * Retrieves the current page as given type.
+     *
+     * @return The current page.
+     */
+    public <T extends Page> T getCurrentPageAs(Class<T> type)
+    {
+        Assert.assertTrue("Failed to retrieve current page as type " + type.getSimpleName(), type.isInstance(currentPage));
+        return type.cast(currentPage);
+    }
+    
     /**
      * Returns the attached account as optional, so it cannot be empty/null.
      *

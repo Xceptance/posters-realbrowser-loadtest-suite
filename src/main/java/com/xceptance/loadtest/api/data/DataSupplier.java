@@ -37,7 +37,7 @@ public class DataSupplier
      *            file to open in the hierarchy
      * @return the list with the data
      */
-    private static List<String> getSourceList(final String filename)
+    public static List<String> getSourceList(final String filename)
     {
         final Site site = Context.get().data.getSite();
 
@@ -147,11 +147,27 @@ public class DataSupplier
     }
 
     /**
+     * Just get us a random entry from our list
+     */
+    public static String randomString(final List<String> list)
+    {
+        return list.get(XltRandom.nextInt(list.size()));
+    }
+    
+    /***
+     * Get a random line from the account file.
+     */
+    public static String getAccount()
+    {
+        return DataSupplier.randomString(DataSupplier.getSourceList(Context.configuration().predefinedAccountsFile));
+    }
+    
+    /**
      * Get us a first name from a plain file
      */
     public static String firstName()
     {
-        return randomString(getSourceList(Context.configuration().dataFileFirstNames));
+        return DataSupplier.randomString(DataSupplier.getSourceList(Context.configuration().dataFileFirstNames));
     }
 
     /**
@@ -159,22 +175,6 @@ public class DataSupplier
      */
     public static String lastName()
     {
-        return randomString(getSourceList(Context.configuration().dataFileLastNames));
-    }
-
-    /***
-     * Get a random line from the account file.
-     */
-    public static String getAccount()
-    {
-        return randomString(getSourceList(Context.configuration().predefinedAccountsFile));
-    }
-
-    /**
-     * Just get us a random entry from our list
-     */
-    private static String randomString(final List<String> list)
-    {
-        return list.get(XltRandom.nextInt(list.size()));
+        return DataSupplier.randomString(DataSupplier.getSourceList(Context.configuration().dataFileLastNames));
     }
 }

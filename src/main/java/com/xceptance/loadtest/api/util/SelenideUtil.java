@@ -13,10 +13,10 @@ import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import com.xceptance.loadtest.posters.configuration.Configuration;
 import com.xceptance.xlt.api.engine.Session;
 import com.xceptance.xlt.api.util.XltProperties;
 import com.xceptance.xlt.api.util.XltRandom;
-import com.xceptance.loadtest.api.configuration.Configuration;
 	
 public class SelenideUtil
 {

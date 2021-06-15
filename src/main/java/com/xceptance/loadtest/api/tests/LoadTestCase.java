@@ -50,6 +50,9 @@ public abstract class LoadTestCase extends com.xceptance.xlt.api.tests.AbstractW
 
         // Setup Selenide
         SelenideUtil.initializeSelenide(Context.get().configuration, getWebDriver(), Session.getCurrent());
+        
+        // just make it accessible easily 
+        Context.setWebDriver(getWebDriver());
     }
 
     /**

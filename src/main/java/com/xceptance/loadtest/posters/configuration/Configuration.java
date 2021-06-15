@@ -1,9 +1,15 @@
-package com.xceptance.loadtest.api.configuration;
+package com.xceptance.loadtest.posters.configuration;
 
 import java.text.MessageFormat;
 
 import org.junit.Assert;
 
+import com.xceptance.loadtest.api.configuration.ConfigDistribution;
+import com.xceptance.loadtest.api.configuration.ConfigList;
+import com.xceptance.loadtest.api.configuration.ConfigProbability;
+import com.xceptance.loadtest.api.configuration.ConfigRange;
+import com.xceptance.loadtest.api.configuration.EnumConfigList;
+import com.xceptance.loadtest.api.configuration.LTProperties;
 import com.xceptance.loadtest.api.configuration.annotations.EnumProperty;
 import com.xceptance.loadtest.api.configuration.annotations.Property;
 import com.xceptance.loadtest.api.data.Account;
@@ -35,6 +41,12 @@ public class Configuration
     // Basic authentication password
     @Property(key = "general.credentials.password", required = false)
     public String credentialsPassword;
+    
+    // Loads the first page twice to avoid problems with the inline JS/CSS and
+    // authentication, this will double the measured homepage requests. Only needed
+    // with auth in place
+    @Property(key = "general.preloadAuthentication")
+    public boolean preloadAuthentication;
 
     // URL exclude filter patterns
     @Property(key = "com.xceptance.xlt.http.filter.exclude", required = false, fallback = "")
@@ -229,6 +241,10 @@ public class Configuration
     @Property(key = "data.file.lastNames")
     public String dataFileLastNames;
 
+    // Search phrases and result counts
+    @Property(key = "data.file.searchPhrases")
+    public String dataFileSearchPhrases;
+    
     /**
      * Return text from the localization section, fails if the text is not available
      *
