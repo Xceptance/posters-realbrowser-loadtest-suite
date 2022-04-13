@@ -1,6 +1,6 @@
 # General information on how to access the site under test
 general:
-    host: 35.184.136.113:8443
+    host: posters.xceptance.io:8443
     baseUrl: "https://${general.host}"
     credentials:
         username: 
