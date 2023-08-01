@@ -19,7 +19,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
+				<version>3.11.0</version>
 				<configuration>
 					<release>11</release>
 				</configuration>
@@ -80,7 +80,7 @@
 		<dependency>
 			<groupId>com.codeborne</groupId>
 			<artifactId>selenide</artifactId>
-			<version>6.4.0</version>
+			<version>6.16.1</version>
 		</dependency>
 	</dependencies>
 

@@ -1,7 +1,7 @@
 # General information on how to access the site under test
 general:
-    host: posters.xceptance.io:8443
-    baseUrl: "https://${general.host}"
+    host: localhost:8080
+    baseUrl: "http://${general.host}"
     credentials:
         username: 
         password:
