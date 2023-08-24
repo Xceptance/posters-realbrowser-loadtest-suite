@@ -8,6 +8,9 @@ To learn all about the basic feature set around configuration and data, refer to
 
 **Disadvantages**
 
+## Demo Store
+This test suite is built against version 1 of the [Posters Demo Store](https://github.com/Xceptance/posters-demo-store). You can easily see that, because that is the more grayish storefront. Version 2 has a restyled more modern one, mostly featuring a redish color scheme. Make sure you use the right version when testing.
+
 ## Configuration
 
 WIP
