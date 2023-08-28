@@ -3,10 +3,6 @@ package com.xceptance.loadtest.posters.pages;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Selenide.$;
 
-import com.codeborne.selenide.Selenide;
-import com.xceptance.loadtest.api.util.Action;
-import com.xceptance.loadtest.api.util.Context;
-
 /**
  * Does things on a search result page
  * 

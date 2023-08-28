@@ -13,7 +13,6 @@ import com.xceptance.loadtest.api.configuration.DefaultConfiguration;
 import com.xceptance.loadtest.api.configuration.LTProperties;
 import com.xceptance.loadtest.api.configuration.YamlPropertiesBuilder;
 import com.xceptance.loadtest.api.data.Account;
-import com.xceptance.loadtest.api.data.CustomDataLogger;
 import com.xceptance.loadtest.api.data.DebugData;
 import com.xceptance.loadtest.api.data.Site;
 import com.xceptance.loadtest.api.data.TestData;

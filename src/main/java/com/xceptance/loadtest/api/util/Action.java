@@ -6,8 +6,6 @@ import java.util.function.Supplier;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
-import com.codeborne.selenide.commands.Commands;
-import com.xceptance.loadtest.api.data.CustomDataLogger;
 import com.xceptance.xlt.api.engine.scripting.StaticScriptCommands;
 
 /**

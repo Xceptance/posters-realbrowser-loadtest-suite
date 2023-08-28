@@ -4,11 +4,18 @@ import java.util.function.Supplier;
 
 import com.xceptance.xlt.api.engine.CustomData;
 import com.xceptance.xlt.api.engine.Session;
+import com.xceptance.xlt.engine.util.TimerUtils;
 
+/**
+ * Logger for custom data.
+ * 
+ * @author Xceptance Software Technologies
+ */
 public class CustomDataLogger
 {
-    // the instance that has a running timer attached
+    // The instance that has a running timer attached
     private final CustomData customData;
+	private long startTime;
 
     /**
      * Don't make it accessible from the outside
@@ -19,6 +26,7 @@ public class CustomDataLogger
     private CustomDataLogger(final String name)
     {
         this.customData = new CustomData(name);
+        startTime = TimerUtils.get().getStartTime();
     }
 
     /**
@@ -34,14 +42,47 @@ public class CustomDataLogger
     }
 
     /**
+     * Stop this logger
+     *
+     * @return the runtime
+     */
+    public CustomDataLogger stop()
+    {
+    	this.customData.setRunTime(TimerUtils.get().getElapsedTime(startTime));
+
+        return this;
+    }
+
+    /**
+     * Stop this logger and return the runtime
+     *
+     * @return the runtime
+     */
+    public long stopAndGet()
+    {
+        stop();
+
+        return this.customData.getRunTime();
+    }
+
+    /**
+     * Stop this logger and log the time as not failed
+     *
+     * @return the runtime
+     */
+    public long stopAndLog()
+    {
+        return stop().log(false);
+    }
+
+    /**
      * Stop this logger and report the runtime
      *
      * @return the runtime
      */
-    public long stop()
+    public long log(final boolean failed)
     {
-        this.customData.setRunTime();
-        this.customData.setFailed(false);
+        this.customData.setFailed(failed);
 
         Session.getCurrent().getDataManager().logDataRecord(this.customData);
 
@@ -49,11 +90,16 @@ public class CustomDataLogger
     }
 
     /**
+     * Log custom data
      *
      * @param name
+     *            the name to log
      * @param runtime
+     *            self measured runtime
+     * @param failed
+     *            was that a failed measurement
      */
-    public static void log(final String name, final long runtime)
+    public static void log(final String name, final long runtime, final boolean failed)
     {
         final CustomData data = new CustomData();
         data.setName(name);
@@ -61,6 +107,19 @@ public class CustomDataLogger
         data.setFailed(false);
 
         Session.getCurrent().getDataManager().logDataRecord(data);
+    }
+
+    /**
+     * Log custom data that was successful
+     *
+     * @param name
+     *            the name to log
+     * @param runtime
+     *            self measured runtime
+     */
+    public static void log(final String name, final long runtime)
+    {
+        log(name, runtime, false);
     }
 
     /**
@@ -74,7 +133,10 @@ public class CustomDataLogger
      */
     public static void log(final String name, final Runnable task)
     {
+    	final long startTime = TimerUtils.get().getStartTime();
+
         final CustomData cd = new CustomData(name);
+    	cd.setTime(startTime);
 
         try
         {
@@ -82,16 +144,16 @@ public class CustomDataLogger
         }
         catch (final Error e)
         {
-            cd.setFailed(false);
+            cd.setFailed(true);
             throw e;
         }
         finally
         {
-            cd.setRunTime();
+            cd.setRunTime(TimerUtils.get().getElapsedTime(startTime));
             Session.getCurrent().getDataManager().logDataRecord(cd);
         }
     }
-
+   
     /**
      * Functional interface for logging custom data runtimes. Just more elegant in the code but not suitable for everything due to the scope of the code block.
      *
@@ -103,7 +165,9 @@ public class CustomDataLogger
      */
     public static <R> R log(final String name, final Supplier<R> task) throws Throwable
     {
-        final CustomData cd = new CustomData(name);
+    	final long startTime = TimerUtils.get().getStartTime();
+
+    	final CustomData cd = new CustomData(name);
 
         try
         {
@@ -111,12 +175,12 @@ public class CustomDataLogger
         }
         catch (final Error e)
         {
-            cd.setFailed(false);
+            cd.setFailed(true);
             throw e;
         }
         finally
         {
-            cd.setRunTime();
+            cd.setRunTime(TimerUtils.get().getElapsedTime(startTime));
             Session.getCurrent().getDataManager().logDataRecord(cd);
         }
     }
