@@ -16,11 +16,8 @@ public class GeneralPage
 	{
 		Action.run("Search", () ->
 		{
-			// open search
-			$("#header-search-trigger").click();
-
 			// enter phrase
-			$("#searchForm input[name='searchText']").sendKeys(phrase);
+			$("#search-form input[name='searchText']").sendKeys(phrase);
 
 			// send search, this is our page load
 			$("#btnSearch").click();
