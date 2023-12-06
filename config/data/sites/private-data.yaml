@@ -1,7 +1,7 @@
 # General information on how to access the site under test
 general:
-    host: localhost:8080
-    baseUrl: http://localhost:8080/
+    host: http://localhost:8080/
+    baseUrl: "https://${general.host}"
     credentials:
         username: 
         password:
