@@ -43,7 +43,7 @@ sites:
 site:
     US:
         general:
-        url: "${general.baseUrl}/"  
+          url: "${general.baseUrl}/"
         account:
             pool:
                 separator: US
