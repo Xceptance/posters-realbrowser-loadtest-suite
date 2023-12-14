@@ -17,10 +17,10 @@ public class GeneralPage
 		Action.run("Search", () ->
 		{
 			// enter phrase
-			$("#search-form input[name='searchText']").sendKeys(phrase);
+			$("#header-search-form .form-control").sendKeys(phrase);
 
 			// send search, this is our page load
-			$("#btnSearch").click();
+			$("#header-search-button").click();
 
 			// verify count
 			$("#totalProductCount").should(Condition.exactText(expectedCount));
