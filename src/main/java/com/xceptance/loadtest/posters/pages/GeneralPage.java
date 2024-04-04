@@ -23,7 +23,7 @@ public class GeneralPage
 			$("#header-search-button").click();
 
 			// verify count
-			$("#totalProductCount").should(Condition.exactText(expectedCount));
+			$("#total-product-count").should(Condition.exactText(expectedCount));
 		});
 	}
 }

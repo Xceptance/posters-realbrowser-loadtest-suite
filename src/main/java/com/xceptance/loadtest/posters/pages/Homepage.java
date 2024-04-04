@@ -86,7 +86,7 @@ public class Homepage
 		$("#globalNavigation").exists();
 		
 		// mini cart must be 0
-		$(".headerCartProductCount").should(exactText("0"));
+		$(".header-cart-product-count").should(exactText("0"));
 		
 		// check footer
 		$("#footer").exists();

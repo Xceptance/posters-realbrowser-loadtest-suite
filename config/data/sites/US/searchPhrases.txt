@@ -1,2 +1,2 @@
 bear,3
-german,16
+german,14
