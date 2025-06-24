@@ -41,9 +41,10 @@ public class SearchTermSupplier
      */
     public static String getTermWithoutHits()
     {
+        RandomStringGenerator randomStringGenerator = RandomStringGenerator.builder().get();
         return Context.configuration().searchNoHitsTerms.isEmpty()
-                ? RandomStringGenerator.builder().get().generate(XltRandom.nextInt(10, 20)) + " "
-                        + RandomStringGenerator.builder().get().generate(XltRandom.nextInt(10, 20))
+                ? randomStringGenerator.generate(XltRandom.nextInt(10, 20)) + " "
+                        + randomStringGenerator.generate(XltRandom.nextInt(10, 20))
                         : Context.configuration().searchNoHitsTerms.random();
     }
 
