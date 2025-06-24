@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.text.RandomStringGenerator;
 import org.apache.commons.text.WordUtils;
 import org.junit.Assert;
 
@@ -42,7 +42,8 @@ public class SearchTermSupplier
     public static String getTermWithoutHits()
     {
         return Context.configuration().searchNoHitsTerms.isEmpty()
-                        ? RandomStringUtils.randomAlphabetic(XltRandom.nextInt(10, 20)) + " " + RandomStringUtils.randomAlphabetic(XltRandom.nextInt(10, 20))
+                ? RandomStringGenerator.builder().get().generate(XltRandom.nextInt(10, 20)) + " "
+                        + RandomStringGenerator.builder().get().generate(XltRandom.nextInt(10, 20))
                         : Context.configuration().searchNoHitsTerms.random();
     }
 
